@@ -33,11 +33,21 @@ const ManejoCuentas = ({ data }) => {
 	return (
 		<div>
 			<div>
-				<form onSubmit={submitHandler}>
-					<label htmlFor="documento">Ingrese el documento del cliente:</label>
-					<input type="number" name="documento" id="documento" min="0" required>
-					</input>
-					<button type="submit">Solicitar cuentas del cliente</button>
+				<form onSubmit={submitHandler} >
+					<div className="row mt-2">
+						<div className="col">
+							<label className="form-label" htmlFor="documento">Ingrese el documento del cliente:</label>
+						</div>
+					</div>
+					<div className="row">
+						<div className="col-4">
+							<input className="form-control" type="number" name="documento" id="documento" min="0" required>
+							</input>
+						</div>
+						<div className="col-8">
+							<button className="btn btn-primary" type="submit">Solicitar cuentas del cliente</button>
+						</div>
+					</div>
 				</form>
 			</div>
 			{Boolean(aviso) && 

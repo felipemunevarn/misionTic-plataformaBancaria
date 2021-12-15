@@ -46,8 +46,9 @@ export default function App() {
 	return (
 		<>
 			<BrowserRouter>
+				
 				<NavBar className={navStyles.prueba} />
-
+				
 				<Routes>
 					<Route path="/" element={
 						<div>
@@ -56,7 +57,7 @@ export default function App() {
 					} />
 
 					<Route path="/login" element={
-						<div className="row">
+						<div className="row m-0">
 							<div className="col-12 col-lg-6">
 								<Login />
 							</div>
@@ -65,29 +66,32 @@ export default function App() {
 							</div>
 						</div>
 					} />
+					
 					<Route path="/cliente/*" element={<TableFull onUpdate={updateHandler}
-						fechaInicio={fechaInicio} fechaFin={fechaFin} idCuenta={idCuenta} />} >
+						fechaInicio={fechaInicio} fechaFin={fechaFin} idCuenta={idCuenta} />}>
+						
 						<Route path='Cuentas'
 							element={
-								<div className="col-8">
+								<div className='col-9'>
 									<Cuentas data={data} />
 								</div>}
 						/>
+						
 						<Route path='Transferencias'
 							element={
-								<div className="col-8">
+								<div className="col-9">
 									<Transferencias data={data} fechaInicio={fechaInicio} fechaFin={fechaFin} idCuenta={idCuenta} />
 								</div>}
 						/>
 						<Route path='Reclamos'
 							element={
-								<div className="col-8">
+								<div className="col-9">
 									<Reclamos data={data} />
 								</div>}
 						/>
 						<Route path='NuevaCuenta'
 							element={
-								<div className="col-8">
+								<div className="col-9">
 									<NuevaCuenta />
 								</div>}
 						/>
@@ -96,34 +100,35 @@ export default function App() {
 					<Route path="/empleado/*" element={<TableFull />} >
 						<Route path='Depositos'
 							element={
-								<div className="col-8">
+								<div className="col-9">
 									<Cuentas data={data} />
 								</div>}
 						/>
 						<Route path='ManejodeCuentas'
 							element={
-								<div className="col-8">
+								<div className="col-9">
 									<ManejoCuentas />
 								</div>}
 						/>
 						<Route path='Reclamos'
 							element={
-								<div className="col-8">
+								<div className="col-9">
 									Reclamos
 								</div>}
 						/>
 						<Route path='BandejaCuentas'
 							element={
-								<div className="col-8">
+								<div className="col-9">
 									<CuentasPorAprovar data={data} />
 								</div>}
 						/>
 					</Route>
+					
 
 					<Route path="/administrador/" element={<TableFull />}>
 						<Route path='GestionarEmpleado'
 							element={
-								<div className="col-8">
+								<div className="col-9">
 									<GestionarEmpleado />
 								</div>}
 						/>
@@ -132,7 +137,9 @@ export default function App() {
 					<Route path="*" element={<Error />} />
 
 				</Routes>
-				<Footer />
+				
+				<Footer/>
+				
 			</BrowserRouter>
 		</>
 	);

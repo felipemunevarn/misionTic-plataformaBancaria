@@ -3,7 +3,7 @@ import Axios from 'axios'
 
 import { REG_NOM, REG_CIU, REG_NUMDOC, REG_EMAIL, REG_PWD_VAR } from '../utils/resources'
 
-import '../styles/registro.module.css'
+import styles from '../styles/registro.module.css'
 
 const REG_PWD = new RegExp(REG_PWD_VAR)
 
@@ -107,7 +107,7 @@ const Registro = () => {
 			{({ errors }) => (
 				// Formulario
 				<div>
-					<Form className='mx-auto p-3 my-3'>
+					<Form className={styles.form} >
 						<div className="row mb-2">
 							<div className="col">
 								<label className='form-label mb-0' htmlFor='nombre'>Nombre completo:</label>

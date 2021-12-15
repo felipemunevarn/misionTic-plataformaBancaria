@@ -86,29 +86,35 @@ const RegTransModal = ({ tipoUsr, s, fechaInicio, fechaFin, idCuenta, onUpdate }
 
 				<form to={`/${tipoUsr}/${s}`}>
 					<div className="row">
-						<label htmlFor="origen" className="form-label">Fecha inicial de busqueda</label>
-						<input type="date" className="form-control" name="origen"
-							value={fechaInicio} onChange={changeFechaInicioHandler}>
-						</input>
+						<div className="col-12">
+							<label htmlFor="origen" className="form-label">Fecha inicial de busqueda</label>
+							<input type="date" className="form-control" name="origen"
+								value={fechaInicio} onChange={changeFechaInicioHandler}>
+							</input>
+						</div>
 					</div>
 
 					<div className="row">
-						<label htmlFor="destino" className="form-label">Fecha final de busqueda</label>
-						<input type="date" className="form-control" name="destino"
-							value={fechaFin} onChange={changeFechaFinHandler}>
-						</input>
+						<div className="col-12">
+							<label htmlFor="destino" className="form-label">Fecha final de busqueda</label>
+							<input type="date" className="form-control" name="destino"
+								value={fechaFin} onChange={changeFechaFinHandler}>
+							</input>
+						</div>
 					</div>
 
 					<div className="row">
-						<label htmlFor="montoTransf" className="form-label">Cuenta a consultar</label>
-						<input type="number" className="form-control" name="montoTransf"
-							value={idCuenta} onChange={changeIdCuentaHandler}>
-						</input>
+						<div className="col-12">
+							<label htmlFor="montoTransf" className="form-label">Cuenta a consultar</label>
+							<input type="number" className="form-control" name="montoTransf"
+								value={idCuenta} onChange={changeIdCuentaHandler}>
+							</input>
+						</div>
 					</div>
 
 					{Boolean(aviso) && <div className="form-text">{aviso}</div>}
 
-					<button type="submit" onClick={searchTransfers}>Enviar</button>
+					<button type="submit" className="btn btn-primary" onClick={searchTransfers}>Enviar</button>
 				</form>
 
 			</Modal>
