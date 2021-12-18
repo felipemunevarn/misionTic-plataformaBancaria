@@ -410,6 +410,26 @@ app.post("/getReclamos", async (req, res) => {
 	res.json(response)
 })
 
+app.post("/requestCancelAccount", async (req, res) => {
+	let result = ''
+
+	mongoose.connect(URL)
+
+	try {
+		await CuentasModel.updateOne(
+			{ numCuenta: req.body.cuenta },
+			{ $set: { estado: "pendCancelacion" } }
+		)
+			.then((response) => {
+				result = response.modifiedCount === 1 ? "succeed" : "failed"
+			})
+	} catch (error) {
+		result = "exeChangeState failed"
+	}
+	console.log("result", result)
+	res.send(result)
+})
+
 app.listen(3001, () => {
 	console.log("Server is running")
 })

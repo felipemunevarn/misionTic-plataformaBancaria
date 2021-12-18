@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { ShowMessage } from './ShowMessage'
 
 import Axios from 'axios'
 
@@ -47,7 +48,9 @@ const Reclamos = ({ data }) => {
 									}</td>
 									{/* <td>$ {e.monto}</td> */}
 									<td>{e.estado}</td>
-									<td>{e.mensaje}</td>
+									<td>
+										<ShowMessage msg={e.mensaje} />
+									</td>
 								</tr>
 							)
 							// } else { return null }
