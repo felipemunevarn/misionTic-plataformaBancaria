@@ -220,14 +220,14 @@ app.post("/updateTransfEstado", async (req, res) => {
 })
 
 app.post("/getAllAccounts", async (req, res) => {
+	let accData
+
 	try {
-		await CuentasModel.find({}).exec()
-			.then((response) => {
-				accData = response
-			})
+		accData = await CuentasModel.find({})
 	} catch (error) {
 		console.log("existAccount E", error)
 	}
+
 	res.json(accData);
 })
 
@@ -389,7 +389,7 @@ app.post("/getReclamosByStatus", async (req, res) => {
 					as: 'transfData'
 				}
 			}
-		]);		
+		]);
 	} catch (error) {
 		console.log("getAllReclamosPend", error)
 	}

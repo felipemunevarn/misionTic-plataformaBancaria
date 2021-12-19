@@ -34,9 +34,10 @@ const schema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	terminos: {
-		type: Boolean,
-		required: true
+	status: {
+		type: String,
+		enum: ['activa', 'desactivada', 'pendActivacion', 'pendCancelacion', 'rechazada'],
+		default: () => "pendActivacion",
 	},
 	fechaExpDoc: {
 		type: Date,

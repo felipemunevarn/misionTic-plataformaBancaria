@@ -18,7 +18,6 @@ const Registro = () => {
 				ciudad: '',
 				direccion: '',
 				pwd: '',
-				terminos: '',
 				fechaExpDoc: '',
 				fechaNacimiento: ''
 			}}
@@ -73,10 +72,6 @@ const Registro = () => {
 				else if (!REG_PWD.test(valores.pwd))
 					errores.pwd = 'La contraseña debe contener mayusculas, numeros, caracteres especiales y estar entre 8 y 15 caracteres'
 
-				// Validar terminos y condiciones
-				if (!valores.terminos)
-					errores.terminos = 'Por favor acepte los terminos y condiciones'
-
 				return errores;
 			}}
 
@@ -89,13 +84,12 @@ const Registro = () => {
 					ciudad: valores.ciudad,
 					direccion: valores.direccion,
 					pwd: valores.pwd,
-					terminos: valores.terminos,
 					fechaExpDoc: valores.fechaExpDoc,
 					fechaNacimiento: valores.fechaNacimiento
 				})
-					.then((response) => {
-						console.log(`SUCCESS: ${response}`)
-					})
+					// .then((response) => {
+					// console.log(`SUCCESS: ${response.data}`)
+					// })
 					.catch((error) => {
 						console.log(`ERROR: ${error}`)
 					})
@@ -178,13 +172,6 @@ const Registro = () => {
 							</div>
 						</div>
 
-						<div className="row mb-2">
-							<div className="col">
-								<Field id="terminos" type="checkbox" className="form-check-input me-2" name="terminos" />
-								<label htmlFor="terminos" className="form-check-label">Acepto terminos y condiciones</label>
-								<ErrorMessage name="terminos" component={() => (<p className="error">{errors.terminos}</p>)} />
-							</div>
-						</div>
 						<div className="row">
 							<div className="col text-center">
 								<input id="btn" className='btn btn-primary' type='submit' value='Registrarme' />

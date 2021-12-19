@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "../utils/modal"
 import { useModal } from "../utils/useModal";
 import { Link } from 'react-router-dom';
+import style from '../styles/tableSide.module.css'
 
 const RegTransModal = ({ tipoUsr, s, fechaInicio, fechaFin, idCuenta, onUpdate }) => {
 	const [isOpenModal, openModal, closeModal] = useModal(false)
@@ -75,8 +76,8 @@ const RegTransModal = ({ tipoUsr, s, fechaInicio, fechaFin, idCuenta, onUpdate }
 		<div>
 			<li>
 				<Link to={`/${tipoUsr}/${s}`}>
-					<a href={`/${tipoUsr}/${s}`} className="nav-link link-dark" onClick={openModal}>
-						<svg className="bi me-2" width="16" height="16"><use></use></svg>
+					<a href={`/${tipoUsr}/${s}`} className={"nav-link ps-0 text-white "+style.enlace} onClick={openModal}>
+						{/* <svg className="bi me-2" width="16" height="16"><use></use></svg> */}
 						{s}
 					</a>
 				</Link>

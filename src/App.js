@@ -81,27 +81,27 @@ export default function App() {
 						/>
 					} >
 						<Route path='' element={
-							<div className="col-9">
+							<div className="col-10">
 								<HomePanel />
 							</div>}
 						/>
 						<Route path='Cuentas' element={
-							<div className="col-9">
+							<div className="col-10">
 								<Cuentas data={data} />
 							</div>}
 						/>
 						<Route path='Transferencias' element={
-							<div className="col-9">
+							<div className="col-10">
 								<Transferencias data={data} fechaInicio={fechaInicio} fechaFin={fechaFin} idCuenta={idCuenta} />
 							</div>}
 						/>
 						<Route path='Reclamos' element={
-							<div className="col-9">
+							<div className="col-10">
 								<Reclamos data={data} />
 							</div>}
 						/>
 						<Route path='NuevaCuenta' element={
-							<div className="col-9">
+							<div className="col-10">
 								<NuevaCuenta />
 							</div>}
 						/>
@@ -109,12 +109,12 @@ export default function App() {
 
 					<Route path="/empleado/*" element={<TableFull />} >
 						<Route path='' element={
-							<div className="col-9">
+							<div className="col-10">
 								<HomePanel />
 							</div>}
 						/>
 						<Route path='Depositos' element={
-							<div className="col-9">
+							<div className="col-10">
 								<Depositos />
 							</div>}
 						/>
@@ -124,25 +124,25 @@ export default function App() {
 							</div>}
 						/>
 						<Route path='ManejodeCuentas' element={
-							<div className="col-9">
+							<div className="col-10">
 								<ManejoCuentas />
 							</div>}
 						/>
 						<Route path='Reclamos' element={
-							<div className="col-9">
-								<ReclamosEmpleado />
+							<div className="col-10">
+								Reclamos
 							</div>}
 						/>
 					</Route>
 
 					<Route path="/administrador/" element={<TableFull />}>
 						<Route path='' element={
-							<div className="col-9">
+							<div className="col-10">
 								<HomePanel />
 							</div>}
 						/>
 						<Route path='Depositos' element={
-							<div className="col-9">
+							<div className="col-10">
 								<Depositos />
 							</div>}
 						/>
@@ -152,17 +152,17 @@ export default function App() {
 							</div>}
 						/>
 						<Route path='ManejodeCuentas' element={
-							<div className="col-9">
+							<div className="col-10">
 								<ManejoCuentas />
 							</div>}
 						/>
 						<Route path='Reclamos' element={
-							<div className="col-9">
+							<div className="col-10">
 								Reclamos
 							</div>}
 						/>
 						<Route path='GestionarPersonal' element={
-							<div className="col-9">
+							<div className="col-10">
 								<GestionarEmpleado />
 							</div>}
 						/>

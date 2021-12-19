@@ -6,7 +6,7 @@ const Modal = ({ children, isOpen, closeModal }) => {
 
 	return (
 		// de esta forma se crea una clase dinamica: {``}, si la variable isOpen ${} es true entonces se va a usar la clase is-open
-		<article className={`modal ${isOpen && "is-open"}`} onClick={closeModal}>
+		<article className={`modal ${isOpen && "is-open"}`} /*onClick={closeModal}*/>
 			<div className="modal-container" onClick={handleModalContainerClick}>
 				<div className="modal-header border-0">
 					<button className="modal-close" onClick={closeModal}>&times;</button>
