@@ -4,6 +4,7 @@ const express = require("express")
 const cors = require("cors")
 const mongoose = require("mongoose")
 const { MongoClient } = require('mongodb')
+const PORT = process.env.PORT || 3001;
 
 const { RegistroModel } = require("./models/Registro")
 const { CuentasModel } = require("./models/Cuentas")
@@ -393,6 +394,6 @@ app.post("/getTransactions", async (req, res) => {
 // })
 
 
-app.listen(process.env.PORT || 3001, () => {
+app.listen(PORT, () => {
 	console.log("Server is running")
 })
