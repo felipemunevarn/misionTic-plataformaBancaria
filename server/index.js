@@ -1,5 +1,6 @@
 require('dotenv').config()
 
+const path = require('path');
 const express = require("express")
 const cors = require("cors")
 const mongoose = require("mongoose")
@@ -20,6 +21,16 @@ const app = express()
 
 app.use(express.json())
 app.use(cors())
+
+//STATIC
+  // get directory where is index.html
+const root = path.join(__dirname, 'client', 'build');
+  //express.use static with the directory
+app.use(express.static(root));
+  //express get request any (*) root, please use file that is on root directory configure above.
+app.get("*", (req, res) => {
+    res.sendFile('index.html', { root });
+  });
 
 async function getTransCount() {
 	let resUpd = {
