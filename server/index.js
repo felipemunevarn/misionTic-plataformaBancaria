@@ -14,7 +14,7 @@ const { ReclamosModel } = require("./models/Reclamos")
 const NUM_TRAN = "61b94da73eec120a384b90ef"
 const NUM_RECL = "61b94dd51ff22b3ee1283ab2"
 
-const URL = `mongodb+srv://${process.env.REACT_APP_USER}:${process.env.REACT_APP_PASSWORD}@banagrario.57kdk.mongodb.net`
+const URL = `mongodb+srv://${process.env.REACT_APP_USER}:${process.env.REACT_APP_PASSWORD}@banagrario.57kdk.mongodb.net?retryWrites=true&w=majority`
 const app = express()
 
 app.use(express.json())
