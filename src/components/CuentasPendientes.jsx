@@ -4,6 +4,7 @@ import Axios from 'axios'
 
 export function CuentasPendientes() {
 	const [accPend, setAccPend] = useState([])
+	const [pulse, setPulse] = useState(false)
 
 	useEffect(() => {
 		async function userAccounts() {
@@ -19,6 +20,7 @@ export function CuentasPendientes() {
 						fecha: e.fecha,
 						cuenta: e.numCuenta,
 						saldo: e.balance,
+						tipoPeticion: e.estado === "pendActivacion" ? "Activacion" : "Cancelacion",
 						id: e._id
 					})
 				}
@@ -28,7 +30,7 @@ export function CuentasPendientes() {
 		}
 
 		userAccounts()
-	}, [])
+	}, [pulse])
 
 	async function handleAprobar(id, state) {
 		const opeOut = await Axios.post(`${process.env.REACT_APP_URL}/exeChangeState`, {
@@ -42,6 +44,8 @@ export function CuentasPendientes() {
 			id,
 			estado: (state === "pendActivacion") ? "rechazada" : (state === "pendCancelacion") ? "activa" : ""
 		})
+
+		setPulse(!pulse)
 	}
 
 	return (
@@ -67,7 +71,7 @@ export function CuentasPendientes() {
 									<td>{acc.cuenta}</td>
 									<td>${acc.saldo}</td>
 									<td>{acc.cliente}</td>
-									<td>{acc.cliente}</td>
+									<td>{acc.tipoPeticion}</td>
 									<td>
 										<button type="button" class="btn btn-warning" onClick={() => handleAprobar(acc.id, acc.estado)}>Aprobar</button>
 									</td>

@@ -36,7 +36,7 @@ const schema = new mongoose.Schema({
 	},
 	estado: {
 		type: String,
-		enum: ['Aceptada', 'Rechazada', 'Disputa'],
+		enum: ['Aceptada', 'Rechazada', 'Disputa', 'Reversada'],
 		default: () => 'Aceptada'
 	}
 })

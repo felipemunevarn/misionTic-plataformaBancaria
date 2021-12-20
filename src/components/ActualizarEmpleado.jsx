@@ -7,19 +7,23 @@ import styles from '../styles/registro.module.css'
 
 const REG_PWD = new RegExp(REG_PWD_VAR)
 
-const Registro = ({ empleado }) => {
+export function ActualizarEmpleado({
+	nombre,
+	correo,
+	ciudad,
+	direccion,
+	pwd,
+	tipoUsuario,
+	_id
+}) {
 	return (
 		<Formik
 			initialValues={{
 				nombre: '',
 				correo: '',
-				tipoDoc: '',
-				numDoc: '',
 				ciudad: '',
 				direccion: '',
-				pwd: '',
-				fechaExpDoc: '',
-				fechaNacimiento: ''
+				pwd: ''
 			}}
 
 			validate={(valores) => {
@@ -35,24 +39,6 @@ const Registro = ({ empleado }) => {
 					errores.correo = 'Por favor ingrese un correo'
 				else if (!REG_EMAIL.test(valores.correo))
 					errores.correo = 'Email no válido'
-
-				// Validar tipo de documento
-				if (!valores.tipoDoc)
-					errores.tipoDoc = 'Por favor seleccione su tipo de documento'
-
-				// Validar número de documento
-				if (!valores.numDoc)
-					errores.numDoc = 'Por favor ingrese su número de documento'
-				else if (!REG_NUMDOC.test(valores.numDoc))
-					errores.numDoc = 'Longitud máxima de 13 caracteres'
-
-				// Validar fecha de expedición del documento
-				if (!valores.fechaExpDoc)
-					errores.fechaExpDoc = 'Por favor ingrese la fecha de expedición de su documento'
-
-				// Validar fecha de nacimiento
-				if (!valores.fechaNacimiento)
-					errores.fechaNacimiento = 'Por favor ingrese su fecha de nacimiento'
 
 				// Validar ciudad
 				if (!valores.ciudad)
@@ -76,28 +62,24 @@ const Registro = ({ empleado }) => {
 			}}
 
 			onSubmit={(valores, { resetForm }) => {
-				Axios.post(`${process.env.REACT_APP_URL}/createUser`, {
+				Axios.post(`${process.env.REACT_APP_URL}/updateUser`, {
+					id: _id,
 					nombre: valores.nombre,
 					correo: valores.correo,
-					tipoDoc: valores.tipoDoc,
-					numDoc: valores.numDoc,
 					ciudad: valores.ciudad,
 					direccion: valores.direccion,
+					tipoUsuario,
 					pwd: valores.pwd,
-					fechaExpDoc: valores.fechaExpDoc,
-					fechaNacimiento: valores.fechaNacimiento,
-					status: empleado ? "activa" : '',
-					tipoUsuario: empleado ? "empleado" : ''
 				})
-					.then((response) => {
-						console.log(`SUCCESS: ${response.data}`)
-					})
+					// .then((response) => {
+					// 	console.log(`SUCCESS: ${response.data}`)
+					// })
 					.catch((error) => {
 						console.log(`ERROR: ${error}`)
 					})
 
-				alert('Formulario enviado con éxito')
-				resetForm()
+				resetForm();
+				alert('Formulario enviado con éxito');
 			}}>
 
 			{({ errors }) => (
@@ -107,6 +89,7 @@ const Registro = ({ empleado }) => {
 						<div className="row mb-2">
 							<div className="col">
 								<label className='form-label mb-0' htmlFor='nombre'>Nombre completo:</label>
+								{/* <Field className='form-control' id='nombre' type='text' name='nombre' value={nombre || ''} /> */}
 								<Field className='form-control' id='nombre' type='text' name='nombre' />
 								<ErrorMessage name="nombre" component={() => (<p className="error">{errors.nombre}</p>)} />
 							</div>
@@ -114,38 +97,14 @@ const Registro = ({ empleado }) => {
 
 						<div className="row mb-2">
 							<div className="col">
-								<label className='form-label mb-0' htmlFor='documento'>Tipo de documento: </label>
-								<Field className='form-control' id='documento' name='tipoDoc' as="select">
-									<option value='' disabled selected>Seleccione</option>
-									<option value='cedulaCiudadania'>Cedula de ciudadanía</option>
-									<option value='cedulaExtranjeria'>Cedula de extranjería</option>
-									<option value='pasaporte'>Pasaporte</option>
-								</Field>
-								<ErrorMessage name="tipoDoc" component={() => (<p className="error">{errors.tipoDoc}</p>)} />
-							</div>
-						</div>
-
-						<div className="row mb-2">
-							<div className="col-12 col-sm-6">
-								<label className='form-label mb-0' htmlFor='numDoc'>Número de documento: </label>
-								<Field className='form-control' id='numDoc' type='number' name='numDoc' />
-								<ErrorMessage name="numDoc" component={() => (<p className="error">{errors.numDoc}</p>)} />
-							</div>
-							<div className="col-12 col-sm-6">
-								<label className='form-label mb-0' htmlFor='fechaExpDoc'>Fecha de expedición: </label>
-								<Field className='form-control' id='fechaExpDoc' type='date' name='fechaExpDoc' />
-								<ErrorMessage name="fechaExpDoc" component={() => (<p className="error">{errors.fechaExpDoc}</p>)} />
-							</div>
-						</div>
-
-						<div className="row mb-2">
-							<div className="col-12 col-sm-6">
-								<label className='form-label mb-0' htmlFor='fechaNacimiento'>Fecha de nacimiento: </label>
-								<Field className='form-control' id='fechaNacimiento' type='date' name='fechaNacimiento' />
-								<ErrorMessage name="fechaNacimiento" component={() => (<p className="error">{errors.fechaNacimiento}</p>)} />
+								<label className='form-label mb-0' htmlFor='direccion'>Dirección: </label>
+								{/* <Field className='form-control' id='direccion' type='text' name='direccion' value={direccion || ''} /> */}
+								<Field className='form-control' id='direccion' type='text' name='direccion' />
+								<ErrorMessage name="direccion" component={() => (<p className="error">{errors.direccion}</p>)} />
 							</div>
 							<div className="col-12 col-sm-6">
 								<label className='form-label mb-0' htmlFor='ciudad'>Ciudad: </label>
+								{/* <Field className='form-control' id='ciudad' type='text' name='ciudad' value={ciudad || ''} /> */}
 								<Field className='form-control' id='ciudad' type='text' name='ciudad' />
 								<ErrorMessage name="ciudad" component={() => (<p className="error">{errors.ciudad}</p>)} />
 							</div>
@@ -153,15 +112,8 @@ const Registro = ({ empleado }) => {
 
 						<div className="row mb-2">
 							<div className="col">
-								<label className='form-label mb-0' htmlFor='direccion'>Dirección: </label>
-								<Field className='form-control' id='direccion' type='text' name='direccion' />
-								<ErrorMessage name="direccion" component={() => (<p className="error">{errors.direccion}</p>)} />
-							</div>
-						</div>
-
-						<div className="row mb-2">
-							<div className="col">
 								<label className='form-label mb-0' htmlFor='correo'>E-mail: </label>
+								{/* <Field className='form-control' id='correo' type='email' name='correo' value={correo || ''} /> */}
 								<Field className='form-control' id='correo' type='email' name='correo' />
 								<ErrorMessage name="correo" component={() => (<p className="error">{errors.correo}</p>)} />
 							</div>
@@ -169,6 +121,7 @@ const Registro = ({ empleado }) => {
 						<div className="row mb-2">
 							<div className="col">
 								<label className='form-label mb-0' htmlFor='psswd'>Contraseña: </label>
+								{/* <Field className='form-control' id='psswd' type='password' name='pwd' value={pwd || ''} /> */}
 								<Field className='form-control' id='psswd' type='password' name='pwd' />
 								<ErrorMessage name="pwd" component={() => (<p className="error">{errors.pwd}</p>)} />
 							</div>
@@ -176,7 +129,7 @@ const Registro = ({ empleado }) => {
 
 						<div className="row">
 							<div className="col text-center">
-								<input id="btn" className='btn btn-primary' type='submit' value='Registrarme' />
+								<input id="btn" className='btn btn-primary' type='submit' value='Actualizar' />
 							</div>
 						</div>
 					</Form>
@@ -185,5 +138,3 @@ const Registro = ({ empleado }) => {
 		</Formik>
 	)
 }
-
-export { Registro };

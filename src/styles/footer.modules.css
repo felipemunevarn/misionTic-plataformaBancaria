@@ -22,7 +22,7 @@
 .footerTitle {
   font-size: calc(100vw * (24 / 1366));
   font-weight: 900;
-  text-decoration: underline;
+  text-decoration: none;
   margin-bottom: 15px;
 }
 .footerList li {

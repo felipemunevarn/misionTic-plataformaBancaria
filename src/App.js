@@ -130,7 +130,7 @@ export default function App() {
 						/>
 						<Route path='Reclamos' element={
 							<div className="col-10">
-								Reclamos
+								<ReclamosEmpleado />
 							</div>}
 						/>
 					</Route>
@@ -158,7 +158,7 @@ export default function App() {
 						/>
 						<Route path='Reclamos' element={
 							<div className="col-10">
-								Reclamos
+								<ReclamosEmpleado />
 							</div>}
 						/>
 						<Route path='GestionarPersonal' element={

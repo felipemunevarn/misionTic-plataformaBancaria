@@ -4,6 +4,7 @@ import Axios from 'axios'
 
 const Transferencias = ({ data, fechaInicio, fechaFin, idCuenta }) => {
 	const [transferencias, setTransferencias] = useState([])
+	const [pulse, setPulse] = useState(false)
 
 	const fini = new Date(fechaInicio)
 	const ffin = new Date(fechaFin)
@@ -17,7 +18,7 @@ const Transferencias = ({ data, fechaInicio, fechaFin, idCuenta }) => {
 			setTransferencias(transaccionesData.data)
 		}
 		effectTransacciones()
-	}, [idCuenta])
+	}, [idCuenta, pulse])
 
 	async function createReclamosTask(numTran) {
 		let res = ''
@@ -72,6 +73,9 @@ const Transferencias = ({ data, fechaInicio, fechaFin, idCuenta }) => {
 		} catch (error) {
 			console.log("handleReclamo", error)
 		}
+
+		alert("Se ha enviado su reclamo")
+		setPulse(!pulse)
 	}
 
 	return (
