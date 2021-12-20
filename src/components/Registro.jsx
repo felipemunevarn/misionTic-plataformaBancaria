@@ -100,7 +100,7 @@ const Registro = () => {
 
 			{({ errors }) => (
 				// Formulario
-				<div>
+				<div style={{height:'91.3vh'}}> 
 					<Form className={styles.form}>
 						<div className="row mb-2">
 							<div className="col">

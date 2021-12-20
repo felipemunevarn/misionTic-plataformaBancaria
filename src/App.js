@@ -81,7 +81,7 @@ export default function App() {
 						/>
 					} >
 						<Route path='' element={
-							<div className="col-10">
+							<div className="col-10 p-0" style={{height:'91.3vh'}}>
 								<HomePanel />
 							</div>}
 						/>
@@ -109,7 +109,7 @@ export default function App() {
 
 					<Route path="/empleado/*" element={<TableFull />} >
 						<Route path='' element={
-							<div className="col-10">
+							<div className="col-10 p-0" style={{height:'91.3vh'}}>
 								<HomePanel />
 							</div>}
 						/>
@@ -137,7 +137,7 @@ export default function App() {
 
 					<Route path="/administrador/" element={<TableFull />}>
 						<Route path='' element={
-							<div className="col-10">
+							<div className="col-10 p-0" style={{height:'91.3vh'}}>
 								<HomePanel />
 							</div>}
 						/>

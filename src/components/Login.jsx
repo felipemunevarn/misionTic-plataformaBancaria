@@ -45,7 +45,7 @@ const Login = ({ onChange }) => {
 	}
 
 	return (
-		<div>
+		<div style={{height:'91.3vh'}}>
 			<form className={styles.form} onSubmit={submitHandler}>
 
 				<div className="row">
