@@ -25,7 +25,7 @@
   "scripts": {
     "start": "node server/index.js",
     "postinstall": "npm run build",
-    "build": "react-scripts build",
+    "build": "webpack",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "nodemon server/index.js"
