@@ -4,50 +4,48 @@ import Axios from 'axios'
 
 export function CuentasPendientes() {
 	const [accPend, setAccPend] = useState([])
-
-	async function userAccounts() {
-		const accounts = await Axios.post(`${process.env.REACT_APP_URL}/getAllAccounts`, {})
-		let cont = 0
-		let listaCuentas = []
-		accounts.data.forEach(e => {
-			if (e.estado === "pendiente apertura" || e.estado === "pendiente cierre") {
-				listaCuentas[cont++] = {
-					cliente: e.numDoc,
-					fecha: e.fecha,
-					cuenta: e.numCuenta,
-					saldo: e.balance,
-					id: e._id
-				}
-			}
-		})
-
-		setAccPend(listaCuentas)
-	}
+	const [pulse, setPulse] = useState(false)
 
 	useEffect(() => {
-		userAccounts()
-	}, [])
+		async function userAccounts() {
+			let listaCuentas = []
 
-	async function handleAprobar(id) {
+			const accounts = await Axios.post(`${process.env.REACT_APP_URL}/getAllAccounts`, {})
+
+			accounts.data.forEach(e => {
+				if (e.estado === "pendActivacion" || e.estado === "pendCancelacion") {
+					listaCuentas.push({
+						estado: e.estado,
+						cliente: e.numDoc,
+						fecha: e.fecha,
+						cuenta: e.numCuenta,
+						saldo: e.balance,
+						tipoPeticion: e.estado === "pendActivacion" ? "Activacion" : "Cancelacion",
+						id: e._id
+					})
+				}
+			})
+
+			setAccPend(listaCuentas)
+		}
+
+		userAccounts()
+	}, [pulse])
+
+	async function handleAprobar(id, state) {
 		const opeOut = await Axios.post(`${process.env.REACT_APP_URL}/exeChangeState`, {
 			id,
-			estado: "aprobar"
+			estado: (state === "pendActivacion") ? "activa" : (state === "pendCancelacion") ? "desactivada" : ""
 		})
-
-		if (opeOut === 1) {
-			userAccounts()
-		}
 	}
 
-	async function handleRechazar(id) {
+	async function handleRechazar(id, state) {
 		const opeOut = await Axios.post(`${process.env.REACT_APP_URL}/exeChangeState`, {
 			id,
-			estado: "rechazar"
+			estado: (state === "pendActivacion") ? "rechazada" : (state === "pendCancelacion") ? "activa" : ""
 		})
 
-		if (opeOut === 1) {
-			userAccounts()
-		}
+		setPulse(!pulse)
 	}
 
 	return (
@@ -59,26 +57,30 @@ export function CuentasPendientes() {
 						<th scope="col"># Cuenta</th>
 						<th scope="col">Monto</th>
 						<th scope="col">Cliente</th>
+						<th scope="col">Peticion</th>
 						<th scope="col">Aprobar</th>
 						<th scope="col">Denegar</th>
 					</tr>
 				</thead>
 				<tbody>
 					{
-						accPend.map((acc) => (
-							<tr key={acc.id}>
-								<td>{acc.fecha}</td>
-								<td>{acc.cuenta}</td>
-								<td>${acc.saldo}</td>
-								<td>{acc.cliente}</td>
-								<td>
-									<button type="button" class="btn btn-warning" onClick={() => handleAprobar(acc.id)}>Aprobar</button>
-								</td>
-								<td>
-									<button type="button" class="btn btn-warning" onClick={() => handleRechazar(acc.id)}>Denegar</button>
-								</td>
-							</tr>
-						))
+						accPend.map((acc) => {
+							return (
+								<tr key={acc.id}>
+									<td>{(acc.fecha).substring(0, (acc.fecha).indexOf('T'))}</td>
+									<td>{acc.cuenta}</td>
+									<td>${acc.saldo}</td>
+									<td>{acc.cliente}</td>
+									<td>{acc.tipoPeticion}</td>
+									<td>
+										<button type="button" class="btn btn-warning" onClick={() => handleAprobar(acc.id, acc.estado)}>Aprobar</button>
+									</td>
+									<td>
+										<button type="button" class="btn btn-warning" onClick={() => handleRechazar(acc.id, acc.estado)}>Denegar</button>
+									</td>
+								</tr>
+							)
+						})
 					}
 				</tbody>
 			</table>

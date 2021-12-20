@@ -14,13 +14,13 @@ const Depositos = () => {
 		})
 		let listaCuentas = []
 		accounts.data.forEach(e => {
-		// 	// SE DEBE CAMBIAR POR EL CONTRARIO ES SOLO PARA PRUEBAS ***********************
+			// 	// SE DEBE CAMBIAR POR EL CONTRARIO ES SOLO PARA PRUEBAS ***********************
 			listaCuentas.push({
 				cuenta: e.numCuenta,
 				saldo: e.balance,
 				id: e._id,
 				estado: e.estado
-			})			
+			})
 		})
 		if (listaCuentas.length === 0) {
 			setAviso('No existe cliente o no tiene cuentas activas');
@@ -46,13 +46,13 @@ const Depositos = () => {
 		} catch (error) {
 			console.log("newBalance: ", error)
 		}
-		if (origin){
-			setAviso2('Deposito epsitoso');
+		if (origin) {
+			setAviso2('Deposito exitoso');
 			setDoc(origin.numDoc);
 		} else {
 			setAviso2('No se encontró el numero de cuenta');
 			setAviso('No se encontró el numero de cuenta');
-		}		
+		}
 	}
 
 	useEffect(() => {
@@ -91,9 +91,9 @@ const Depositos = () => {
 					<div className="row mt-2">
 						<div className='col'>
 							<label className="form-label" htmlFor="documento">Ingrese el documento del cliente:</label>
-						</div>	
+						</div>
 					</div>
-					
+
 					<div className='row'>
 						<div className="col-4">
 							<input className="form-control" type="number" name="documento" id="documento" min="0" required>
@@ -106,13 +106,13 @@ const Depositos = () => {
 				</form>
 				<div className="form-text">{aviso}</div>
 			</div>
-			{Boolean(aviso[0] === 'C') && 
+			{Boolean(aviso[0] === 'C') &&
 				<div>
 					<table className="table table-hover">
 						<thead>
 							<tr>
 								<th scope="col"># Cuenta</th>
-								<th scope="col">Saldo</th>								
+								<th scope="col">Saldo</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -121,7 +121,7 @@ const Depositos = () => {
 									<tr className='text-body'>
 										<th scope="row">{e.cuenta}</th>
 										<td>$ {e.saldo.toFixed(2)}</td>
-										</tr>
+									</tr>
 								)
 							})}
 						</tbody>
@@ -130,8 +130,8 @@ const Depositos = () => {
 						<div className="row mt-2">
 							<div className='col'>
 								<label className="form-label" htmlFor="cuentaID">Ingrese el numero de cuenta a depositar:</label>
-							</div>	
-						</div>					
+							</div>
+						</div>
 						<div className='row'>
 							<div className="col-4">
 								<input className="form-control" type="number" name="cuentaID" id="cuentaID" min="0" required>
@@ -141,23 +141,23 @@ const Depositos = () => {
 						<div className="row mt-2">
 							<div className='col'>
 								<label className="form-label" htmlFor="monto">Ingrese el monto:</label>
-							</div>	
-						</div>					
+							</div>
+						</div>
 						<div className='row'>
 							<div className="col-4">
 								<input className="form-control" type="number" name="monto" id="monto" min="0" required>
 								</input>
 							</div>
 							<div className="col-8">
-									<button className="btn btn-primary" type="submit">Depositar</button>
-							</div>						
+								<button className="btn btn-primary" type="submit">Depositar</button>
+							</div>
 						</div>
 						<div className="form-text">
-							 {aviso2}
+							{aviso2}
 						</div>
 					</form>
 				</div>
-			}			
+			}
 		</div>
 	)
 }

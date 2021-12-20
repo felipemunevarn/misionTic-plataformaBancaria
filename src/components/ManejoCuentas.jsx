@@ -43,6 +43,7 @@ const ManejoCuentas = () => {
 			estado: "cancelada"
 		})
 		submitData(doc)
+		console.log(opeOut);
 	}
 
 	async function activateCtaById (id, doc) {
@@ -51,6 +52,7 @@ const ManejoCuentas = () => {
 			estado: "activa"
 		})
 		submitData(doc)
+		console.log(opeOut);
 	}
 
 	async function rejectCtaById (id, doc) {
@@ -59,6 +61,7 @@ const ManejoCuentas = () => {
 			estado: "rechazada"
 		})
 		submitData(doc)
+		console.log(opeOut);
 	}
 
 	return (

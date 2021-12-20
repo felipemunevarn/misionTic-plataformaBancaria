@@ -15,7 +15,7 @@ export function NavBar({ session, onChange }) {
 			<div class="container-fluid">
 				<Link to="/">
 					<a class="navbar-brand" href="/" onClick={cleanStorage}>
-						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Banco_Agrario_de_Colombia_logo.svg/100px-Banco_Agrario_de_Colombia_logo.svg.png" width="30" height="30" alt="" class="d-inline-block align-text-top" />
+						<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Banco_Agrario_de_Colombia_logo.svg/100px-Banco_Agrario_de_Colombia_logo.svg.png" width="30" height="30" alt="" class="d-inline-block align-text-top me-2" />
 						Banagrario
 					</a>
 				</Link>

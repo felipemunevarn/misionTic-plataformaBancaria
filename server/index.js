@@ -137,8 +137,9 @@ app.post("/createUser", async (req, res) => {
 		await newUser.save().then(() => {
 			result = "Creating User succeed"
 		})
-	} catch (e) {
+	} catch (error) {
 		result = "Saving account failed"
+		console.log("createUser", error)
 	}
 
 	res.send(result)
@@ -193,6 +194,7 @@ app.post("/createReclamo", async (req, res) => {
 	try {
 		const reclCount = await getReclCount()
 		const newRec = new ReclamosModel({
+			numDoc: req.body.doc,
 			numReclamo: reclCount.res ? reclCount.num : "Error",
 			numTransf: req.body.numTransf
 		})
@@ -231,14 +233,16 @@ app.post("/updateTransfEstado", async (req, res) => {
 })
 
 app.post("/getAllAccounts", async (req, res) => {
+	let accData
+
+	mongoose.connect(URL)
+
 	try {
-		await CuentasModel.find({}).exec()
-			.then((response) => {
-				accData = response
-			})
+		accData = await CuentasModel.find({})
 	} catch (error) {
 		console.log("existAccount E", error)
 	}
+
 	res.json(accData);
 })
 
@@ -264,7 +268,7 @@ app.post("/getAccounts", async (req, res) => {
 				.then((result) => {
 					datadb = result
 				})
-				console.log(datadb);
+			console.log(datadb);
 		} catch (e) {
 			console.log("getAccountsByEstado failed: " + e)
 		}
@@ -359,7 +363,8 @@ app.post("/getTransactions", async (req, res) => {
 				docDestino: t.docDestino,
 				docFuente: t.docFuente,
 				estado: t.estado,
-				fecha: extraerFechaFromDBField(t.fecha),
+				// fecha: extraerFechaFromDBField(t.fecha),
+				fecha: t.fecha,
 				fuente: t.fuente,
 				monto: t.monto,
 				numTransf: t.numTransf,
@@ -374,36 +379,228 @@ app.post("/getTransactions", async (req, res) => {
 	res.json(trans)
 })
 
-// app.post("/getAccounts", async (req, res) => {
-// 	const activeUser = req.body.activeUser
-// 	const DBField = req.body.fetchBy
-// 	let datadb
+app.post("/getTransById", async (req, res) => {
+	let response = {}
+	mongoose.connect(URL)
+	try {
+		response = await TransaccionesModel.find({ numTransf: req.body.transf })
+	} catch (error) {
+		console.log("getTransById", error)
+	}
+	res.json(response)
+})
 
-// 	mongoose.connect(URL)
+app.post("/getReclamosByStatus", async (req, res) => {
+	let response
 
-// 	if (DBField === "documento") {
-// 		try {
-// 			await CuentasModel.find({ numDoc: activeUser }).exec()
-// 				.then((result) => {
-// 					datadb = result
-// 				})
-// 		} catch (e) {
-// 			console.log("getAccountsByDocumento failed: " + e)
-// 		}
-// 	} else if (DBField === "estado") {
-// 		try {
-// 			await CuentasModel.find({ estado: "pendiente" }).exec()
-// 				.then((result) => {
-// 					datadb = result
-// 				})
-// 		} catch (e) {
-// 			console.log("getAccountsByEstado failed: " + e)
-// 		}
-// 	}
+	mongoose.connect(URL)
 
-// 	res.json(datadb)
-// })
+	try {
+		// el aggregate es un array de pasos para una query
+		const reclamos = await ReclamosModel.aggregate([
+			{
+				$match: { estado: req.body.estado }
+			},
+			{
+				$lookup: {
+					from: 'transacciones',
+					// localField: 'numTransf' >> numTransf es un campo del resultado de la query de $match
+					localField: 'numTransf',
+					foreignField: 'numTransf',
+					as: 'transfData'
+				}
+			},
+			{
+				$unwind: '$transfData'
+			}
+		])
+		response = reclamos
+	} catch (error) {
+		console.log("getReclamosByStatus", error)
+	}
 
+	res.json(response)
+})
+
+app.post("/getReclamos", async (req, res) => {
+	let response = {}
+
+	mongoose.connect(URL)
+
+	try {
+		response = await ReclamosModel.find({ numDoc: req.body.numDoc })
+	} catch (error) {
+		console.log("getReclamos", error)
+	}
+
+	res.json(response)
+})
+
+app.post("/requestCancelAccount", async (req, res) => {
+	let result = ''
+
+	mongoose.connect(URL)
+
+	try {
+		await CuentasModel.updateOne(
+			{ numCuenta: req.body.cuenta },
+			{ $set: { estado: "pendCancelacion" } }
+		)
+			.then((response) => {
+				result = response.modifiedCount === 1 ? "succeed" : "failed"
+			})
+	} catch (error) {
+		result = "exeChangeState failed"
+	}
+	console.log("result", result)
+	res.send(result)
+})
+
+app.post("/updateReclamo", async (req, res) => {
+	mongoose.connect(URL)
+
+	try {
+		await ReclamosModel.updateOne(
+			{ _id: req.body.id },
+			{
+				$set: {
+					estado: req.body.estado,
+					mensaje: req.body.mensaje
+				}
+			}
+		)
+			.then((response) => {
+				resMsg = response.modifiedCount
+			})
+	} catch (error) {
+		resMsg = "exeChangeState failed"
+	}
+
+	res.sendStatus(200)
+})
+
+app.post("/reversePayment", async (req, res) => {
+	mongoose.connect(URL)
+
+	try {
+		const resReclamo = await ReclamosModel.updateOne(
+			{ _id: req.body.idReclamo },
+			{
+				$set: {
+					estado: req.body.estadoReclamo,
+					mensaje: req.body.mensajeReclamo
+				}
+			}
+		)
+
+		const resTransaccion = await TransaccionesModel.updateOne(
+			{ _id: req.body.idTrans },
+			{
+				$set: {
+					estado: req.body.estadoTrans
+				}
+			}
+		)
+
+		const cuentaOrigen = await CuentasModel.findOne({
+			numCuenta: req.body.fuenteTrans
+		})
+
+		const cuentaDestino = await CuentasModel.findOne({
+			numCuenta: req.body.destinoTrans
+		})
+
+		const resDevOrigen = await CuentasModel.updateOne(
+			{ numCuenta: req.body.fuenteTrans },
+			{
+				$set: {
+					balance: cuentaOrigen.balance + req.body.montoTotalTrans
+				}
+			}
+		)
+
+		const resDevDestino = await CuentasModel.updateOne(
+			{ numCuenta: req.body.destinoTrans },
+			{
+				$set: {
+					balance: cuentaDestino.balance + req.body.montoTrans
+				}
+			}
+		)
+
+		if (
+			resReclamo.modifiedCount === 1 &&
+			resTransaccion.modifiedCount === 1 &&
+			resDevOrigen.modifiedCount === 1 &&
+			resDevDestino.modifiedCount === 1
+		) {
+			console.log("reversePayment OK")
+		}
+	} catch (error) {
+		console.log("exeChangeState failed", error)
+		resMsg = "exeChangeState failed"
+	}
+
+	res.sendStatus(200)
+})
+
+app.post("/getEmployees", async (req, res) => {
+	let employees
+
+	mongoose.connect(URL)
+
+	try {
+		employees = await RegistroModel.find({
+			tipoUsuario: { $nin: [req.body.tipoUsuario] }
+		})
+	} catch (error) {
+		console.log("getEmployees", error)
+	}
+
+	res.json(employees)
+})
+
+app.post("/updateEmployeeStatus", async (req, res) => {
+	mongoose.connect(URL)
+
+	try {
+		await RegistroModel.updateOne(
+			{ _id: req.body.id },
+			{
+				$set: {
+					status: "desactivada"
+				}
+			}
+		)
+	} catch (error) {
+		console.log("updateEmployeeStatus", error)
+	}
+})
+
+app.post("/updateUser", async (req, res) => {
+	mongoose.connect(URL)
+	// console.log("updateUser", req.body)
+	try {
+		const uno = await RegistroModel.updateOne(
+			{ _id: req.body.id },
+			{
+				$set: { // update
+					nombre: req.body.nombre,
+					correo: req.body.correo,
+					ciudad: req.body.ciudad,
+					direccion: req.body.direccion,
+					tipoUsuario: req.body.tipoUsuario,
+					pwd: req.body.pwd
+				}
+			}
+		)
+		console.log("UNO", uno)
+	} catch (error) {
+		console.log("updateUser", error)
+	}
+
+	res.send("Complete")
+})
 
 app.listen(PORT, () => {
 	console.log("Server is running")

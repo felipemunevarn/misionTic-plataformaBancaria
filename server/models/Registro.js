@@ -34,9 +34,10 @@ const schema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	terminos: {
-		type: Boolean,
-		required: true
+	status: {
+		type: String,
+		enum: ['activa', 'desactivada', 'pendActivacion', 'pendCancelacion', 'rechazada'],
+		default: () => "pendActivacion"
 	},
 	fechaExpDoc: {
 		type: Date,
@@ -60,4 +61,4 @@ const schema = new mongoose.Schema({
 
 const RegistroModel = mongoose.model("clientes", schema)
 
-module.exports = { RegistroModel }
+module.exports = { RegistroModel } 

@@ -23,6 +23,7 @@ import { Reclamos } from './components/Reclamos'
 import { ManejoCuentas } from './components/ManejoCuentas'
 import { HomePanel } from './components/HomePanel'
 import { Depositos } from './components/Depositos'
+import { ReclamosEmpleado } from './components/ReclamosEmpleado'
 
 // import appStyles from './styles/root.module.css'
 import navStyles from './styles/navbar.module.css'
@@ -80,27 +81,27 @@ export default function App() {
 						/>
 					} >
 						<Route path='' element={
-							<div className="col-9">
+							<div className="col-10 p-0" style={{height:'91.3vh'}}>
 								<HomePanel />
 							</div>}
 						/>
 						<Route path='Cuentas' element={
-							<div className="col-9">
+							<div className="col-10">
 								<Cuentas data={data} />
 							</div>}
 						/>
 						<Route path='Transferencias' element={
-							<div className="col-9">
+							<div className="col-10">
 								<Transferencias data={data} fechaInicio={fechaInicio} fechaFin={fechaFin} idCuenta={idCuenta} />
 							</div>}
 						/>
 						<Route path='Reclamos' element={
-							<div className="col-9">
+							<div className="col-10">
 								<Reclamos data={data} />
 							</div>}
 						/>
 						<Route path='NuevaCuenta' element={
-							<div className="col-9">
+							<div className="col-10">
 								<NuevaCuenta />
 							</div>}
 						/>
@@ -108,12 +109,12 @@ export default function App() {
 
 					<Route path="/empleado/*" element={<TableFull />} >
 						<Route path='' element={
-							<div className="col-9">
+							<div className="col-10 p-0" style={{height:'91.3vh'}}>
 								<HomePanel />
 							</div>}
 						/>
 						<Route path='Depositos' element={
-							<div className="col-9">
+							<div className="col-10">
 								<Depositos />
 							</div>}
 						/>
@@ -123,25 +124,25 @@ export default function App() {
 							</div>}
 						/>
 						<Route path='ManejodeCuentas' element={
-							<div className="col-9">
+							<div className="col-10">
 								<ManejoCuentas />
 							</div>}
 						/>
 						<Route path='Reclamos' element={
-							<div className="col-9">
-								Reclamos
+							<div className="col-10">
+								<ReclamosEmpleado />
 							</div>}
 						/>
 					</Route>
 
 					<Route path="/administrador/" element={<TableFull />}>
 						<Route path='' element={
-							<div className="col-9">
+							<div className="col-10 p-0" style={{height:'91.3vh'}}>
 								<HomePanel />
 							</div>}
 						/>
 						<Route path='Depositos' element={
-							<div className="col-9">
+							<div className="col-10">
 								<Depositos />
 							</div>}
 						/>
@@ -151,17 +152,17 @@ export default function App() {
 							</div>}
 						/>
 						<Route path='ManejodeCuentas' element={
-							<div className="col-9">
+							<div className="col-10">
 								<ManejoCuentas />
 							</div>}
 						/>
 						<Route path='Reclamos' element={
-							<div className="col-9">
-								Reclamos
+							<div className="col-10">
+								<ReclamosEmpleado />
 							</div>}
 						/>
 						<Route path='GestionarPersonal' element={
-							<div className="col-9">
+							<div className="col-10">
 								<GestionarEmpleado />
 							</div>}
 						/>

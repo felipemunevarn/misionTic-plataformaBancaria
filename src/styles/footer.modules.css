@@ -9,24 +9,24 @@
 .footerColumn {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 33%;
-  padding: 20px 5px
+  padding: 15px 5px
 }
 .footerTitle, .footerList, .footerColumn p {
   color: white;
   font-family: "Roboto", sans-serif;
   list-style-type: none;
+  margin: 0;
 }
 .footerTitle {
-  font-size: calc(100vw * (26 / 1366));
+  font-size: calc(100vw * (24 / 1366));
   font-weight: 900;
-  text-decoration: underline;
-  margin-bottom: 20px;
+  text-decoration: none;
+  margin-bottom: 15px;
 }
 .footerList li {
-  font-size: calc(100vw * (18 / 1366));
+  font-size: calc(100vw * (16 / 1366));
 }
 .footerList li a {
   text-decoration: none;
@@ -37,9 +37,9 @@
   text-decoration: underline;
 }
 .bankLogoFooter {
-  width: 70px;
-  height: 70px;
+  width: 55px;
+  height: 55px;
 }
 .footerColumn p {
-  font-size: calc(100vw * (16 / 1366));
+  font-size: calc(100vw * (14 / 1366));
 }
